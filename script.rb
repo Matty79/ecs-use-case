@@ -1,17 +1,16 @@
 require 'mysql2'
 
-client = Mysql2::Client.new(
-  host: "localhost",
-  username: "root",
-  password: "ecs",
-  database: "ecsdb",
-)
-
 class UpdateDB
 
 PATH = '/path/to/search/**/*.sql'
 
     def initialize
+      @client = Mysql2::Client.new(
+        host: "localhost",
+        username: "root",
+        password: "ecs",
+        database: "ecsdb",
+      )
       @filenames = filenames
       @s_filenames = s_filenames
       @vnum = vnum
@@ -26,7 +25,7 @@ PATH = '/path/to/search/**/*.sql'
       s_filenames = filenames.sort
     end
 
-    def get_db_version
+    def get_db_version(client)
       vnum = client.query("SELECT version FROM versionTable")
     end
 
@@ -38,12 +37,12 @@ PATH = '/path/to/search/**/*.sql'
 
       # next method should access viable scripts from folder and execute to db
       # how to compare with v_scripts array to do so?
-    def run_valid_scripts(v_scripts)
+    def run_valid_scripts(v_scripts, client)
       v_scripts.is_a?(Array)
       client.query("ecsdb < v_scripts")
     end
 
-    def update_db_version_number(v_scripts)
+    def update_db_version_number(v_scripts, client)
       v_scripts.is_a?(Array)
       final_vnum = v_scripts[-1].scan(/\d+/).first.to_i
       client.query("REPLACE versionTable (version) VALUES (final_vnum)")
