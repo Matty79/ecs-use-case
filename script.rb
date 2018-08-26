@@ -7,7 +7,7 @@ client = Mysql2::Client.new(
   database: "ecsdb",
 )
 
-class dbUpdate
+class UpdateDB
 
 PATH = '/path/to/search/**/*.sql'
 
