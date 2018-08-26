@@ -20,7 +20,7 @@ describe '#get_db_version' do
 
 end
 
- describe '#identify_viable_scripts' do
+ describe '#identify_valid_scripts' do
 
    context 'db version number = highest script number' do
 
@@ -32,7 +32,7 @@ end
 
  end
 
- describe '#run_viable_scripts' do
+ describe '#run_valid_scripts' do
 
  end
 
